@@ -13,49 +13,19 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.eleven2018.finance.order.domain.vo;
+package org.eleven2018.finance.order.infrastructure.util.validate;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.eleven2018.finance.order.infrastructure.util.validate.Validator;
 import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
 
 /**
- * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
- * @date: 2020-05-14
+ * @author: <a herf="matilto:jarodchao@126.com>jarod </a>
+ * @date: 2020-05-15
  */
-public class BankAccount implements Validator  {
+public interface Validator {
 
-    @Setter
-    @Getter
     /**
-     * 借款人开户银行号
+     * 验证
+     * @throws FinanceBizException
      */
-    private String bankNo;
-
-    @Setter
-    @Getter
-    /**
-     * 银行账号
-     */
-    private String accountNo;
-
-    @Setter
-    @Getter
-    /**
-     * 开户支行号
-     */
-    private String branchNo;
-
-    @Setter
-    @Getter
-    /**
-     * 开户名
-     */
-    private String accountName;
-
-    @Override
-    public void validate() throws FinanceBizException {
-
-    }
+    void validate() throws FinanceBizException;
 }

@@ -19,6 +19,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.eleven2018.finance.order.domain.vo.BankAccount;
+import org.eleven2018.finance.order.infrastructure.util.validate.ValidateExecutor;
+import org.eleven2018.finance.order.infrastructure.util.validate.Validator;
+import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
 
 import java.math.BigDecimal;
 
@@ -27,7 +30,7 @@ import java.math.BigDecimal;
  * @date: 2020-05-14
  */
 @AllArgsConstructor
-public class PlaceOrderEvent {
+public class PlaceOrderEvent implements Validator {
 
     @Setter
     @Getter
@@ -41,7 +44,17 @@ public class PlaceOrderEvent {
     @Getter
     private BankAccount bankAccount;
 
+    @Override
+    public void validate() throws FinanceBizException {
+        ValidateExecutor.execute(this, bankAccount);
+    }
+
     public static PlaceOrderEvent of(String orderNo, BigDecimal amount, BankAccount bankAccount) {
-        return new PlaceOrderEvent(orderNo, amount, bankAccount);
+
+        PlaceOrderEvent event = new PlaceOrderEvent(orderNo, amount, bankAccount);
+
+        event.validate();
+
+        return event;
     }
 }
