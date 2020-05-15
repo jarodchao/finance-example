@@ -15,17 +15,14 @@
  */
 package org.eleven2018.finance.order.infrastructure.util.validate;
 
-import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
+import java.util.function.Predicate;
 
 /**
  * @author: <a herf="matilto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-15
  */
-public interface Validator {
+@FunctionalInterface
+public interface FieldLengthComparator<T> {
 
-    /**
-     * 验证
-     * @throws FinanceBizException
-     */
-    void validate() throws FinanceBizException;
+    boolean compare(T t, int length);
 }

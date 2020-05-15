@@ -17,14 +17,20 @@ package org.eleven2018.finance.order.domain.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.eleven2018.finance.order.infrastructure.util.validate.Validator;
+import org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes;
+import org.eleven2018.finance.order.infrastructure.util.validate.DomainValidator;
 import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
+import org.eleven2018.finance.order.infrastructure.util.validate.FieldValidateUtils;
+
+import static org.eleven2018.finance.order.infrastructure.exception.ExceptionTigger.tigger;
+import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes.ORDER_NUMBER_IS_NULL;
+import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes.ORDER_NUMBER_LENGTH_ERROR;
 
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-14
  */
-public class BankAccount implements Validator  {
+public class BankAccount implements DomainValidator {
 
     @Setter
     @Getter
@@ -57,5 +63,12 @@ public class BankAccount implements Validator  {
     @Override
     public void validate() throws FinanceBizException {
 
+        tigger(OrderErrorCodes.BANK_NUMBER_IS_NULL, FieldValidateUtils.OBJECT_IS_EMPTY, bankNo);
+        tigger(OrderErrorCodes.BANK_ACCOUNT_NAME_IS_NULL, FieldValidateUtils.STRING_LENGTH_IS_MATCH, bankNo, 6);
+        tigger(OrderErrorCodes.BANK_BRANCH_NUMBER_IS_NULL, FieldValidateUtils.OBJECT_IS_EMPTY, branchNo);
+        tigger(OrderErrorCodes.BANK_BRANCH_NUMBER_LENGTH_ERROR, FieldValidateUtils.STRING_LENGTH_IS_MATCH, branchNo, 6);
+        tigger(OrderErrorCodes.BANK_ACCOUNT_NAME_IS_NULL, FieldValidateUtils.OBJECT_IS_EMPTY, accountName);
+        tigger(OrderErrorCodes.BANK_ACCOUNT_NUMBER_IS_NULL, FieldValidateUtils.OBJECT_IS_EMPTY, accountNo);
+        tigger(OrderErrorCodes.BANK_BRANCH_NUMBER_LENGTH_ERROR, FieldValidateUtils.STRING_LENGTH_IS_MATCH, accountNo, 16, 19);
     }
 }

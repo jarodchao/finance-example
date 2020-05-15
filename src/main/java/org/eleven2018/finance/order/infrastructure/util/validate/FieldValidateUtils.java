@@ -16,7 +16,9 @@
 package org.eleven2018.finance.order.infrastructure.util.validate;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
@@ -24,16 +26,24 @@ import java.util.Objects;
  */
 public class FieldValidateUtils {
 
-    public static boolean objectIsEmpty(Object object) {
-        return Objects.isNull(object);
-    }
 
-    public static boolean isZero(BigDecimal bigDecimal) {
-        return bigDecimal.equals(BigDecimal.ZERO);
-    }
+    public static Predicate<Object> OBJECT_IS_EMPTY = o -> Objects.isNull(o);
 
-    public static boolean lessZero(BigDecimal bigDecimal) {
-        return bigDecimal.equals(BigDecimal.ZERO);
-    }
+    public static Comparator<Object> OBJECT_EQUALS = (o1, o2) -> o1.equals(o2) ? 0 : -1;
+
+    public static Predicate<BigDecimal> DECIMAL_EQUALS_ZERO = bigDecimal -> bigDecimal.equals(BigDecimal.ZERO);
+
+    public static Predicate<BigDecimal> DECIMAL_LESS_ZERO =
+                            bigDecimal -> bigDecimal.compareTo(BigDecimal.ZERO) == -1 ? true : false;
+
+    public static Predicate<BigDecimal> DECIMAL_MORE_ZERO =
+                            bigDecimal -> bigDecimal.compareTo(BigDecimal.ZERO) == 1 ? true : false;
+
+    public static Comparator<BigDecimal> DECIMAL_LESS = (o1, o2) -> o1.compareTo(o2) == -1 ? 0 : -1;
+
+    public static Comparator<BigDecimal> DECIMAL_MORE = (o1, o2) -> o1.compareTo(o2) == 1 ? 0 : -1;
+
+    public static FieldLengthComparator<String> STRING_LENGTH_IS_MATCH =
+            (s, length) -> s.length() != length ? true : false;
 
 }

@@ -19,21 +19,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.eleven2018.finance.order.domain.vo.BankAccount;
-import org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes;
 import org.eleven2018.finance.order.infrastructure.util.validate.FieldValidateUtils;
 import org.eleven2018.finance.order.infrastructure.util.validate.ValidateExecutor;
-import org.eleven2018.finance.order.infrastructure.util.validate.Validator;
+import org.eleven2018.finance.order.infrastructure.util.validate.DomainValidator;
 import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
-import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+
+import static org.eleven2018.finance.order.infrastructure.exception.ExceptionTigger.tigger;
+import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes.*;
 
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-14
  */
 @AllArgsConstructor
-public class PlaceOrderEvent implements Validator {
+public class PlaceOrderEvent implements DomainValidator {
 
     @Setter
     @Getter
@@ -50,17 +51,10 @@ public class PlaceOrderEvent implements Validator {
     @Override
     public void validate() throws FinanceBizException {
 
-        if (FieldValidateUtils.objectIsEmpty(orderNo)) {
-            throw new FinanceBizException(OrderErrorCodes.ORDER_NUMBER_IS_NULL);
-        }
-
-        if (amount.equals(BigDecimal.ZERO)) {
-            throw new FinanceBizException(OrderErrorCodes.AMOUNT_IS_ZERO);
-        }
-
-        if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new FinanceBizException(OrderErrorCodes.AMOUNT_LESS_ZERO);
-        }
+        tigger(ORDER_NUMBER_IS_NULL, FieldValidateUtils.OBJECT_IS_EMPTY, orderNo);
+        tigger(ORDER_NUMBER_LENGTH_ERROR, FieldValidateUtils.STRING_LENGTH_IS_MATCH, orderNo,16, 19);
+        tigger(AMOUNT_IS_ZERO, FieldValidateUtils.DECIMAL_EQUALS_ZERO, amount);
+        tigger(AMOUNT_IS_ZERO, FieldValidateUtils.DECIMAL_LESS_ZERO, amount);
 
     }
 

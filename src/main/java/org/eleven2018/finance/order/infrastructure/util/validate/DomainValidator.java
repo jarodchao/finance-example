@@ -15,21 +15,17 @@
  */
 package org.eleven2018.finance.order.infrastructure.util.validate;
 
+import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
+
 /**
- * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
+ * @author: <a herf="matilto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-15
  */
-public class ValidateExecutor {
+public interface DomainValidator {
 
-    private DomainValidator[] domainValidators;
-
-    public static void execute(DomainValidator... domainValidators) {
-        if (domainValidators.length == 0) {
-            return;
-        }
-
-        for (DomainValidator domainValidator : domainValidators) {
-            domainValidator.validate();
-        }
-    }
+    /**
+     * 验证
+     * @throws FinanceBizException
+     */
+    void validate() throws FinanceBizException;
 }

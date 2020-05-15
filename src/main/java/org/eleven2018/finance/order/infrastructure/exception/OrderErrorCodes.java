@@ -21,9 +21,23 @@ package org.eleven2018.finance.order.infrastructure.exception;
  */
 public enum OrderErrorCodes implements BizErrorCode {
 
-    AMOUNT_IS_ZERO("000001","金额等于0."),
-    AMOUNT_LESS_ZERO("000002","金额小于0."),
-    ORDER_NUMBER_IS_NULL("000003","订单号为空.")
+    /** 合法性检查 */
+    /** 订单信息 */
+    AMOUNT_IS_ZERO("0101000001","订单金额等于0."),
+    AMOUNT_LESS_ZERO("0101000002","订单金额小于0."),
+
+    ORDER_NUMBER_IS_NULL("0101000003","订单号为空."),
+    ORDER_NUMBER_LENGTH_ERROR("0101000004","订单号长度错误，正确长度为{}."),
+
+    /** 银行账户信息 */
+    BANK_NUMBER_IS_NULL("0102000001","银行编码为空."),
+    BANK_NUMBER_LENGTH_ERROR("0102000002","银行编码长度错误，正确长度为{}."),
+    BANK_BRANCH_NUMBER_IS_NULL("0102000003","银行编码为空."),
+    BANK_BRANCH_NUMBER_LENGTH_ERROR("0102000004","银行编码长度错误，正确长度为{}."),
+    BANK_ACCOUNT_NUMBER_IS_NULL("0102000005","银行编码为空."),
+    BANK_ACCOUNT_NUMBER_LENGTH_ERROR("0102000006","银行编码长度错误，正确长度为{}."),
+    BANK_ACCOUNT_NAME_IS_NULL("0102000007","银行编码长度错误，正确长度为{}."),
+    /** 合法性检查 */
     ;
 
     private String code;
