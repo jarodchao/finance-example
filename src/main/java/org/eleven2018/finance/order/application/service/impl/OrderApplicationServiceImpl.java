@@ -33,6 +33,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     private final OrderService orderService;
 
+
     public OrderApplicationServiceImpl(OrderPublisher orderPublisher, OrderService orderService) {
         this.orderPublisher = orderPublisher;
         this.orderService = orderService;
