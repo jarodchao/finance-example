@@ -22,6 +22,7 @@ import org.eleven2018.finance.order.interfaces.dto.OrderDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
@@ -32,17 +33,17 @@ public class OrderController {
 
     private final OrderApplicationService orderApplicationService;
 
-
     public OrderController(OrderApplicationService orderApplicationService) {
         this.orderApplicationService = orderApplicationService;
     }
 
     @PostMapping(path = "/order")
-    public String postOrder(@RequestBody OrderDto orderDto) {
+    public Mono<String> postOrder(@RequestBody OrderDto orderDto) {
 
+        // 转换成领域对象
         TransactionOrderDetail orderDetail = OrderAssembler.toTransactionOrderDetail(orderDto);
 
-        return orderApplicationService.placeOrder(orderDetail);
+        return Mono.fromRunnable(() -> orderApplicationService.placeOrder(orderDetail));
 
     }
 }
