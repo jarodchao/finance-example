@@ -19,9 +19,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.eleven2018.finance.order.domain.vo.BankAccount;
+import org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes;
+import org.eleven2018.finance.order.infrastructure.util.validate.FieldValidateUtils;
 import org.eleven2018.finance.order.infrastructure.util.validate.ValidateExecutor;
 import org.eleven2018.finance.order.infrastructure.util.validate.Validator;
 import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -46,14 +49,26 @@ public class PlaceOrderEvent implements Validator {
 
     @Override
     public void validate() throws FinanceBizException {
-        ValidateExecutor.execute(this, bankAccount);
+
+        if (FieldValidateUtils.objectIsEmpty(orderNo)) {
+            throw new FinanceBizException(OrderErrorCodes.ORDER_NUMBER_IS_NULL);
+        }
+
+        if (amount.equals(BigDecimal.ZERO)) {
+            throw new FinanceBizException(OrderErrorCodes.AMOUNT_IS_ZERO);
+        }
+
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new FinanceBizException(OrderErrorCodes.AMOUNT_LESS_ZERO);
+        }
+
     }
 
     public static PlaceOrderEvent of(String orderNo, BigDecimal amount, BankAccount bankAccount) {
 
         PlaceOrderEvent event = new PlaceOrderEvent(orderNo, amount, bankAccount);
 
-        event.validate();
+        ValidateExecutor.execute(event, bankAccount);
 
         return event;
     }
