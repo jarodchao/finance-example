@@ -29,6 +29,12 @@ public enum OrderErrorCodes implements BizErrorCode {
     ORDER_NUMBER_IS_NULL("0101000003","订单号为空."),
     ORDER_NUMBER_LENGTH_ERROR("0101000004","订单号长度错误，正确长度为{}."),
 
+    ORDER_SERIAL_NUMBER_IS_NULL("0101000005","订单流水号为空."),
+    ORDER_SERIAL_NUMBER_LENGTH_ERROR("0101000006","订单流水号长度错误，正确长度为{}."),
+
+    ORDER_PRODUCT_NUMBER_IS_NULL("0101000007","借款产品号为空."),
+    ORDER_PRODUCT_NUMBER_LENGTH_ERROR("0101000008","借款产品号长度错误，正确长度为{}."),
+
     /** 银行账户信息 */
     BANK_NUMBER_IS_NULL("0102000001","银行编码为空."),
     BANK_NUMBER_LENGTH_ERROR("0102000002","银行编码长度错误，正确长度为{}."),

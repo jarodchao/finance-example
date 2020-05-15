@@ -13,21 +13,26 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.eleven2018.finance.order.infrastructure.util.validate;
+package org.eleven2018.finance.order.application.event.publish.impl;
+
+import org.eleven2018.finance.order.application.event.publish.OrderPublisher;
+import org.eleven2018.finance.order.domain.event.PlaceOrderEvent;
+import org.eleven2018.finance.order.infrastructure.util.validate.ValidateExecutor;
+import org.springframework.stereotype.Component;
 
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-15
  */
-public class ValidateExecutor {
+@Component
+public class OrderPublisherImpl implements OrderPublisher {
 
-    public static void execute(DomainValidator... domainValidators) {
-        if (domainValidators.length == 0) {
-            return;
-        }
+    @Override
+    public void publishPlaceOrderEvent(PlaceOrderEvent event) {
 
-        for (DomainValidator domainValidator : domainValidators) {
-            domainValidator.validate();
-        }
+        // 验证event是否合法
+        ValidateExecutor.execute(event, event.getBankAccount());
+
+        // 验证通过后push到消息中间件中
     }
 }

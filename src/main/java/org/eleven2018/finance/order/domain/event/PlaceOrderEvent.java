@@ -60,10 +60,6 @@ public class PlaceOrderEvent implements DomainValidator {
 
     public static PlaceOrderEvent of(String orderNo, BigDecimal amount, BankAccount bankAccount) {
 
-        PlaceOrderEvent event = new PlaceOrderEvent(orderNo, amount, bankAccount);
-
-        ValidateExecutor.execute(event, bankAccount);
-
-        return event;
+        return new PlaceOrderEvent(orderNo, amount, bankAccount);
     }
 }
