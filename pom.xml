@@ -24,8 +24,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.eleven1028</groupId>
+            <artifactId>e-framework</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
     </dependencies>

@@ -17,17 +17,20 @@ package org.eleven2018.finance.order.domain.enetity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.eleven1028.framework.exception.ErrorCode;
+import org.eleven1028.framework.exception.ErrorInfo;
+import org.eleven1028.framework.exception.ExceptionChecker;
+import org.eleven1028.framework.util.validate.FieldValidateUtils;
+import org.eleven1028.framework.util.validate.FieldValidator;
 import org.eleven2018.finance.order.domain.vo.OrderCustomer;
 import org.eleven2018.finance.order.domain.vo.Term;
-import org.eleven2018.finance.order.infrastructure.exception.FinanceBizException;
 import org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes;
-import org.eleven2018.finance.order.infrastructure.util.validate.DomainValidator;
-import org.eleven2018.finance.order.infrastructure.util.validate.FieldValidateUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.eleven2018.finance.order.infrastructure.exception.ExceptionTigger.tigger;
+import static org.eleven1028.framework.exception.ExceptionChecker.*;
+import static org.eleven1028.framework.util.validate.FieldValidateUtils.*;
 import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes.*;
 import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes.AMOUNT_IS_ZERO;
 
@@ -35,7 +38,7 @@ import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCo
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-14
  */
-public class TransactionOrderDetail implements DomainValidator {
+public class TransactionOrderDetail implements FieldValidator {
 
     @Setter
     @Getter
@@ -80,13 +83,16 @@ public class TransactionOrderDetail implements DomainValidator {
     private Term term;
 
     @Override
-    public void validate() throws FinanceBizException {
+    public ErrorInfo[] validate() {
 
-        tigger(OrderErrorCodes.ORDER_SERIAL_NUMBER_IS_NULL, FieldValidateUtils.OBJECT_IS_EMPTY, orderSerialNo);
-        tigger(OrderErrorCodes.ORDER_SERIAL_NUMBER_LENGTH_ERROR, FieldValidateUtils.STRING_LENGTH_IS_MATCH, orderSerialNo,32);
-        tigger(AMOUNT_IS_ZERO, FieldValidateUtils.DECIMAL_EQUALS_ZERO, amount);
-        tigger(AMOUNT_IS_ZERO, FieldValidateUtils.DECIMAL_LESS_ZERO, amount);
-        tigger(OrderErrorCodes.ORDER_PRODUCT_NUMBER_IS_NULL, FieldValidateUtils.OBJECT_IS_EMPTY, productNo);
-        tigger(OrderErrorCodes.ORDER_PRODUCT_NUMBER_LENGTH_ERROR, FieldValidateUtils.STRING_LENGTH_IS_MATCH, orderSerialNo,6);
+        return new ErrorInfo[]{
+                check(ORDER_SERIAL_NUMBER_IS_NULL, OBJECT_IS_EMPTY, orderSerialNo),
+                check(ORDER_SERIAL_NUMBER_LENGTH_ERROR, STRING_LENGTH_IS_MATCH, orderSerialNo, 32),
+                check(AMOUNT_IS_ZERO, DECIMAL_EQUALS_ZERO, amount),
+                check(AMOUNT_IS_ZERO, DECIMAL_LESS_ZERO, amount),
+                check(ORDER_PRODUCT_NUMBER_IS_NULL, OBJECT_IS_EMPTY, productNo),
+                check(ORDER_PRODUCT_NUMBER_LENGTH_ERROR, STRING_LENGTH_IS_MATCH, orderSerialNo, 6),
+
+        };
     }
 }

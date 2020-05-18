@@ -15,9 +15,10 @@
  */
 package org.eleven2018.finance.order.application.event.publish.impl;
 
+import org.eleven1028.framework.util.validate.FieldValidateExecutor;
 import org.eleven2018.finance.order.application.event.publish.OrderPublisher;
 import org.eleven2018.finance.order.domain.event.PlaceOrderEvent;
-import org.eleven2018.finance.order.infrastructure.util.validate.ValidateExecutor;
+import org.eleven2018.finance.order.infrastructure.exception.OrderException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,7 +32,8 @@ public class OrderPublisherImpl implements OrderPublisher {
     public void publishPlaceOrderEvent(PlaceOrderEvent event) {
 
         // 验证event是否合法
-        ValidateExecutor.execute(event, event.getBankAccount());
+        FieldValidateExecutor.of(errorInfos -> new OrderException(errorInfos))
+                .execute(event, event.getBankAccount());
 
         // 验证通过后push到消息中间件中
     }

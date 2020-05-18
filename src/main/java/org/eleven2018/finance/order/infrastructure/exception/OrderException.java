@@ -15,21 +15,16 @@
  */
 package org.eleven2018.finance.order.infrastructure.exception;
 
+import org.eleven1028.framework.exception.ErrorInfo;
+import org.eleven1028.framework.exception.FrameworkBaseException;
+
 /**
- * @author: <a herf="matilto:jarodchao@126.com>jarod </a>
+ * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-15
  */
-public interface BizErrorCode {
+public class OrderException extends FrameworkBaseException {
 
-    /**
-     * 获取错误码
-     * @return 错误码
-     */
-    String getCode();
-
-    /**
-     * 获取错误描述
-     * @return 错误描述
-     */
-    String getDesc();
+    public OrderException(ErrorInfo... errorInfos) {
+        super(errorInfos);
+    }
 }

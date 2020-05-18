@@ -15,11 +15,13 @@
  */
 package org.eleven2018.finance.order.infrastructure.exception;
 
+import org.eleven1028.framework.exception.ErrorCode;
+
 /**
  * @author: <a herf="matilto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-15
  */
-public enum OrderErrorCodes implements BizErrorCode {
+public enum OrderErrorCodes implements ErrorCode {
 
     /** 合法性检查 */
     /** 订单信息 */
