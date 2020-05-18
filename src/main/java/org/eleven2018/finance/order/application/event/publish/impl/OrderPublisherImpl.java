@@ -32,8 +32,7 @@ public class OrderPublisherImpl implements OrderPublisher {
     public void publishPlaceOrderEvent(PlaceOrderEvent event) {
 
         // 验证event是否合法
-        FieldValidateExecutor.of(errorInfos -> new OrderException(errorInfos))
-                .execute(event, event.getBankAccount());
+        FieldValidateExecutor.of(OrderException.FIELD_EXCEPTION_SUPPLIER).execute(event, event.getBankAccount());
 
         // 验证通过后push到消息中间件中
     }

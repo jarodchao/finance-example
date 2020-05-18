@@ -15,9 +15,19 @@
  */
 package org.eleven2018.finance.order.domain.service.impl;
 
+import org.eleven1028.framework.exception.ErrorInfo;
+import org.eleven1028.framework.util.validate.ExceptionTigger;
+import org.eleven1028.framework.util.validate.FieldValidateExecutor;
+import org.eleven1028.framework.util.validate.FieldValidateUtils;
 import org.eleven2018.finance.order.domain.enetity.TransactionOrderDetail;
 import org.eleven2018.finance.order.domain.service.OrderService;
+import org.eleven2018.finance.order.infrastructure.exception.OrderException;
+import org.eleven2018.finance.order.infrastructure.service.OrderSerialNumberService;
 import org.springframework.stereotype.Component;
+
+import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes.CALL_ORDER_SERIAL_NUMBER_SERVICE_FAILURE;
+import static org.eleven2018.finance.order.infrastructure.exception.OrderErrorCodes.CALL_ORDER_SERIAL_NUMBER_SERVICE_IS_NULL;
+import static org.eleven2018.finance.order.infrastructure.exception.OrderException.*;
 
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
@@ -26,10 +36,37 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderServiceImpl implements OrderService {
 
+
+    private final OrderSerialNumberService serialNumberService;
+
+    public OrderServiceImpl(OrderSerialNumberService serialNumberService) {
+        this.serialNumberService = serialNumberService;
+    }
+
+    private ExceptionTigger<OrderException> exceptionTigger = ExceptionTigger.of(errorInfo -> new OrderException());
+
     @Override
     public String placeOrder(TransactionOrderDetail transactionOrderDetail) {
 
-        return null;
+        // 验证交易订单
+        FieldValidateExecutor.of(FIELD_EXCEPTION_SUPPLIER).execute(transactionOrderDetail);
+
+        // 取客户号
+
+        // 生成订单流水号
+        String orderSerailNo = null;
+        try {
+            orderSerailNo = serialNumberService.generate();
+        } catch (Exception e) {
+            exceptionTigger.tigger(CALL_ORDER_SERIAL_NUMBER_SERVICE_FAILURE);
+
+        }
+
+        exceptionTigger.tigger(ErrorInfo.of(CALL_ORDER_SERIAL_NUMBER_SERVICE_IS_NULL), FieldValidateUtils.OBJECT_IS_EMPTY, orderSerailNo);
+
+        // 保存订单
+
+        return orderSerailNo;
 
     }
 }

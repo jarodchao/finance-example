@@ -46,6 +46,11 @@ public enum OrderErrorCodes implements ErrorCode {
     BANK_ACCOUNT_NUMBER_LENGTH_ERROR("0102000006","银行编码长度错误，正确长度为{}."),
     BANK_ACCOUNT_NAME_IS_NULL("0102000007","银行编码长度错误，正确长度为{}."),
     /** 合法性检查 */
+
+    /** 调用方法失败 */
+    CALL_ORDER_SERIAL_NUMBER_SERVICE_FAILURE("0201000001","调用生成订单流水号基础服务失败!"),
+    CALL_ORDER_SERIAL_NUMBER_SERVICE_IS_NULL("0201000002","调用生成订单流水号基础服务结果为空!"),
+
     ;
 
     private String code;

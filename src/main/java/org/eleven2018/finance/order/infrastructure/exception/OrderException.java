@@ -15,8 +15,11 @@
  */
 package org.eleven2018.finance.order.infrastructure.exception;
 
+import org.eleven1028.framework.ExtendedExceptionSupplier;
+import org.eleven1028.framework.exception.ErrorCode;
 import org.eleven1028.framework.exception.ErrorInfo;
 import org.eleven1028.framework.exception.FrameworkBaseException;
+import org.eleven1028.framework.util.validate.FieldValidateExceptionSupplier;
 
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
@@ -24,7 +27,19 @@ import org.eleven1028.framework.exception.FrameworkBaseException;
  */
 public class OrderException extends FrameworkBaseException {
 
+    public static FieldValidateExceptionSupplier<OrderException> FIELD_EXCEPTION_SUPPLIER = errorInfos -> new OrderException(errorInfos);
+
+    public static ExtendedExceptionSupplier<OrderException> EXCEPTION_SUPPLIER = errorInfo -> new OrderException(errorInfo);
+
     public OrderException(ErrorInfo... errorInfos) {
         super(errorInfos);
+    }
+
+    public OrderException(ErrorInfo errorInfo) {
+        super(errorInfo);
+    }
+
+    public OrderException(ErrorCode errorCode, Object... fields) {
+        super(errorCode, fields);
     }
 }

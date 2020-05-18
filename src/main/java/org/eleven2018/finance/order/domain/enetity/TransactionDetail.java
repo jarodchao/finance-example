@@ -15,6 +15,13 @@
  */
 package org.eleven2018.finance.order.domain.enetity;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.eleven2018.finance.order.domain.vo.Term;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 /**
  * @author: <a herf="mailto:jarodchao@126.com>jarod </a>
  * @date: 2020-05-14
@@ -24,5 +31,34 @@ public class TransactionDetail {
 
     private String customerNo;
 
+    private String transactionNo;
+
+    @Setter
+    @Getter
+    /**
+     * 进件日期
+     */
+    private LocalDate transactionDate;
+
+    @Setter
+    @Getter
+    /**
+     * 进件产品号
+     */
+    private String productNo;
+
+    @Setter
+    @Getter
+    /**
+     * 借款金额
+     */
+    private BigDecimal amount;
+
+    @Setter
+    @Getter
+    /**
+     * 借款周期
+     */
+    private Term term;
 
 }
